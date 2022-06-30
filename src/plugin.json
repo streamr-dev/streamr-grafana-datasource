@@ -1,35 +1,31 @@
 {
-    "type": "datasource",
-    "name": "Streamr",
-    "id": "streamr-datasource",
-    "logs": true,
-    "metrics": true,
-    "streaming": true,
-    "info": {
-        "description": "Streamr data source plugin for Grafana",
-        "author": {
-            "name": "Sergej Müller",
-            "url": "https://github.com/sergejmueller"
-        },
-        "keywords": [
-            "grafana",
-            "streamr",
-            "streaming"
-        ],
-        "logos": {
-            "small": "img/logo.svg",
-            "large": "img/logo.svg"
-        },
-        "screenshots": [
-            { "name": "datasource", "path": "img/screenshot-datasource.png" },
-            { "name": "panel", "path": "img/screenshot-panel.png" }
-        ],
-        "version": "%VERSION%",
-        "updated": "%TODAY%"
+  "type": "datasource",
+  "name": "Streamr",
+  "id": "streamr-datasource",
+  "logs": true,
+  "metrics": true,
+  "streaming": true,
+  "info": {
+    "description": "Streamr data source plugin for Grafana",
+    "author": {
+      "name": "Sergej Müller",
+      "url": "https://github.com/sergejmueller"
     },
-    "dependencies": {
-        "grafanaDependency": ">=7.0.0",
-        "grafanaVersion": "7.x.x",
-        "plugins": []
-    }
+    "keywords": ["grafana", "streamr", "streaming"],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "screenshots": [
+      { "name": "datasource", "path": "img/screenshot-datasource.png" },
+      { "name": "panel", "path": "img/screenshot-panel.png" }
+    ],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=7.0.0",
+    "grafanaVersion": "7.x.x",
+    "plugins": []
+  }
 }
