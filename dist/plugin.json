@@ -1,7 +1,7 @@
 {
   "type": "datasource",
   "name": "Streamr",
-  "id": "streamr-datasource",
+  "id": "bernatcanal-streamr-datasource",
   "logs": true,
   "metrics": true,
   "streaming": true,
