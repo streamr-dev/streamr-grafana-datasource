@@ -15,7 +15,7 @@
         "@grafana/ui": "latest",
         "@types/lodash": "latest",
         "rxjs": "6.6.3",
-        "streamr-client": "^6.0.9"
+        "streamr-client": "^7.0.0"
     },
     "engines": {
         "node": ">=16"

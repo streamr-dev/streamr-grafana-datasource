@@ -52,7 +52,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
       const streamrClient = new StreamrClient({ auth: { privateKey } });
 
-      return new Observable<DataQueryResponse>((subscriber) => {
+      return new Observable<DataQueryResponse>((subscriber: any) => {
         const frame = new CircularDataFrame({
           append: 'tail',
           capacity: options.maxDataPoints || 10000,
@@ -61,7 +61,7 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
         frame.refId = refId;
         frame.addField({ name: 'time', type: FieldType.time });
 
-        streamrClient.subscribe({ id: streamId, resend }, (payload: JSON, metadata: Object) => {
+        streamrClient.subscribe({ id: streamId, resend }, (payload: any, metadata: Object) => {
           if (!payload || !metadata) {
             return;
           }
@@ -126,12 +126,12 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
       try {
         const streamrClient = new StreamrClient({ auth: { privateKey } });
 
-        if (streamrClient.options.auth.privateKey !== `0x${privateKey}`) {
+        /*if (streamrClient.options.auth.privateKey !== `0x${privateKey}`) {
           return reject({
             status: 'error',
             message: 'Invalid Private Key',
           });
-        }
+        }*/
 
         if (streamId) {
           const stream = await streamrClient.getStream(this.streamId);
