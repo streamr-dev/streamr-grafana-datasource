@@ -1,6 +1,9 @@
 // @ts-ignore
 import StreamrClient from 'streamr-client';
 import { Observable, merge } from 'rxjs';
+import _ from 'lodash';
+import flatten from 'flat';
+
 import {
   DataQueryRequest,
   DataQueryResponse,
@@ -11,12 +14,14 @@ import {
   LoadingState,
 } from '@grafana/data';
 
-import { MyQuery, MyDataSourceOptions, StreamMetadata } from './types';
+import { MyQuery, MyDataSourceOptions } from './types';
+
 
 export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
   privateKey: string;
   streamId: string;
   noAddedFields: boolean;
+  flattenJson: boolean;
 
   constructor(instanceSettings: DataSourceInstanceSettings<MyDataSourceOptions>) {
     super(instanceSettings);
@@ -24,9 +29,11 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
     this.privateKey = instanceSettings.jsonData.privateKey;
     this.streamId = instanceSettings.jsonData.streamId;
     this.noAddedFields = true;
+    this.flattenJson = instanceSettings.jsonData.flattenJson;
   }
 
   query(options: DataQueryRequest<MyQuery>): Observable<DataQueryResponse> {
+    this.noAddedFields = true;
     const observables = options.targets.map((target) => {
       const query = target;
       const { refId } = query;
@@ -61,13 +68,17 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
         frame.refId = refId;
         frame.addField({ name: 'time', type: FieldType.time });
 
-        streamrClient.subscribe({ id: streamId, resend }, (payload: any, metadata: Object) => {
+        streamrClient.subscribe({ id: streamId, resend }, (payload: any, metadata: any) => {
           if (!payload || !metadata) {
+            console.log("no payload or metadata, returning");
             return;
           }
 
-          const { messageId } = metadata as StreamMetadata;
-          const time = messageId.timestamp;
+          if (this.flattenJson) {
+            payload = flatten(payload);
+          } 
+
+          const time = metadata?.streamMessage?.messageId?.timestamp
 
           if (this.noAddedFields) {
             for (const [key, value] of Object.entries(payload)) {
@@ -125,13 +136,6 @@ export class DataSource extends DataSourceApi<MyQuery, MyDataSourceOptions> {
 
       try {
         const streamrClient = new StreamrClient({ auth: { privateKey } });
-
-        /*if (streamrClient.options.auth.privateKey !== `0x${privateKey}`) {
-          return reject({
-            status: 'error',
-            message: 'Invalid Private Key',
-          });
-        }*/
 
         if (streamId) {
           const stream = await streamrClient.getStream(this.streamId);

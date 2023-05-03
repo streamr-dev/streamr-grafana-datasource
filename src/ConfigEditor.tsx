@@ -1,5 +1,5 @@
 import React, { ChangeEvent, PureComponent } from 'react';
-import { InlineField, Input } from '@grafana/ui';
+import { InlineField, InlineSwitch, Input } from '@grafana/ui';
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { MyDataSourceOptions } from './types';
 
@@ -7,14 +7,21 @@ interface Props extends DataSourcePluginOptionsEditorProps<MyDataSourceOptions> 
 
 interface State {}
 
-export class ConfigEditor extends PureComponent<Props, State> {
-  onValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { onOptionsChange, options } = this.props;
-    const jsonData = { ...options.jsonData, [event.target.name]: event.target.value };
+//add usestate for input switch, check state
 
+export class ConfigEditor extends PureComponent<Props, State> {
+
+  onValueChange = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log('value changed', this);
+    const { onOptionsChange, options } = this.props;
+    let jsonData = { ...options.jsonData, [event.target.name]: event.target.value };
+    if (event.target.name == "flattenJson") {
+      jsonData["flattenJson"] = event.target.checked;
+    }
+    console.log(event.target.name, jsonData["flattenJson"]);
     onOptionsChange({ ...options, jsonData });
   };
-
+  
   render() {
     const { options } = this.props;
     const { jsonData } = options;
@@ -51,6 +58,18 @@ export class ConfigEditor extends PureComponent<Props, State> {
               spellCheck={false}
               css="css"
             />
+          </InlineField>
+        </div>
+
+        <div className="gf-gorm">
+          <InlineField label="Flatten JSON" labelWidth={20} tooltip="Optional, can be defined as query">
+            <InlineSwitch 
+                label="Flatten JSON"
+                name="flattenJson"
+                onChange={this.onValueChange}
+                value={jsonData.flattenJson}
+                css="css"
+                />
           </InlineField>
         </div>
       </div>

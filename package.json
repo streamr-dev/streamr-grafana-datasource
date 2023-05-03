@@ -13,7 +13,9 @@
         "@grafana/data": "next",
         "@grafana/toolkit": "next",
         "@grafana/ui": "latest",
+        "@types/flat": "^5.0.2",
         "@types/lodash": "latest",
+        "flat": "^5.0.2",
         "rxjs": "6.6.3",
         "streamr-client": "^7.0.0"
     },

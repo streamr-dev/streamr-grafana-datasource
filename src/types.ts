@@ -7,6 +7,7 @@ export interface MyQuery extends DataQuery {
 export interface MyDataSourceOptions extends DataSourceJsonData {
   streamId: string;
   privateKey: string;
+  flattenJson: boolean;
 }
 
 export interface StreamMetadata {

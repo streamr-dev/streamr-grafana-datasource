@@ -19,17 +19,19 @@ export class QueryEditor extends PureComponent<Props> {
 
     return (
       <div className="gf-form">
-        <InlineField label="Streamr Stream ID" labelWidth={20}>
-          <Input
-            width={70}
-            name="streamId"
-            value={query.streamId || ''}
-            onChange={this.onValueChange}
-            placeholder="Streamr Stream ID"
-            spellCheck={false}
-            css="css"
-          />
-        </InlineField>
+        <>
+          <InlineField label="Streamr Stream ID" labelWidth={20}>
+            <Input
+              width={70}
+              name="streamId"
+              value={query.streamId || ''}
+              onChange={this.onValueChange}
+              placeholder="Streamr Stream ID"
+              spellCheck={false}
+              css="css"
+            />
+          </InlineField>
+        </>
       </div>
     );
   }
